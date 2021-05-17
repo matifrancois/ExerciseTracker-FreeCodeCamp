@@ -37,6 +37,7 @@ mongoose
 
 const PersonSchema = new mongoose.Schema({
   name: {type:String, unique:true},
+  count: Number,
    // Array of rutins
   sesions: [{
     description: String,
@@ -56,7 +57,7 @@ app.post("/api/users", function(req, res){
     res.send('Username cannot be greater than 100 characters');
   } else {
     //if everything is okey:
-    var newPerson = new Person({name: req.body.username, sesions: []});
+    var newPerson = new Person({name: req.body.username, count: 0, sesions: []});
 
     newPerson.save((error, data) => {
       if(error){
@@ -110,7 +111,7 @@ app.post("/api/users/:_id/exercises", function(req, res){
       date: date
     };
 
-    Person.findByIdAndUpdate(req.params._id, {$push: {sesions: newSesion}}, { new: true },(error,data)=>{
+    Person.findByIdAndUpdate(req.params._id, {$push: {sesions: newSesion}, $inc: { count:1 }}, { new: true },(error,data)=>{
       if(error){
         console.log(error);
       }else if(!data){
@@ -162,9 +163,11 @@ app.get('/api/users/:_id/logs', (req, res) => {
     if (req.query.limit){ 
       userSesionsToShow = userSesionsToShow.slice(0, req.query.limit);
     }
+    console.log(data)
     res.json({
       username: data.name,
-      log: userSesionsToShow.map((sesion) => { return { date: sesion.date, duration: sesion.duration, description: sesion.description }; })
+      count: data.count,
+      log: userSesionsToShow.map((sesion) => { return { description: sesion.description, duration: sesion.duration, date: sesion.date   }; })
     });
   });
 });

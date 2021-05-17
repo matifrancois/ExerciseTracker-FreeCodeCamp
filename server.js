@@ -130,6 +130,13 @@ app.post("/api/users/:_id/exercises", function(req, res){
 });
 
 
+app.get('/api/users', (req, res) => {
+  Person.find({}, (err, data) => {
+    if (err) return console.log(err);
+    res.send(data.map((user) => { return { username: user.name, _id: user._id }; }));
+  });
+});
+
 app.get('/api/users/:_id/logs', (req, res) => {
   if (!req.params){
     return res.json({ error: 'there are no parameters'});

@@ -51,11 +51,11 @@ const Person = mongoose.model('Athlete', PersonSchema);
 app.post("/api/users", function(req, res){
   
   //we perform certain verifications
-	if (req.body.username === '') {
-    res.send('Username cannot be blank');
-  } else if (req.body.username.length > 100) {
-    res.send('Username cannot be greater than 100 characters');
-  } else {
+	// if (req.body.username === '') {
+  //   res.send('Username cannot be blank');
+  // } else if (req.body.username.length > 100) {
+  //   res.send('Username cannot be greater than 100 characters');
+  // } else {
     //if everything is okey:
     var newPerson = new Person({name: req.body.username, count: 0, sesions: []});
 
@@ -74,7 +74,7 @@ app.post("/api/users", function(req, res){
         });
       }
     });
-  }
+  // }
 });
 
 
@@ -82,26 +82,28 @@ app.post("/api/users/:_id/exercises", function(req, res){
   //we can do that because there is the Parser 
   let {userId, description, duration, date} = req.body;
   console.log(req.body)
-
+  date = new Date(date);
   //we perform certain verifications
-  if (req.params._id === undefined || description === undefined || duration === undefined) {
-    res.send('Required Field(s) are missing.');
-    console.log(userId);
-  } else if (req.params._id === '' || description === '' || duration === '') {
-    res.send('Required Field(s) are blank.');
-  } else if (description.length > 1000) {
-    res.send('Description cannot be greater than 100 characters');
-  } else if (isNaN(duration)) {
-    res.send('Duration must be a number');
-  } else if (Number(duration) > 1440) {
-    res.send('Duration must be less than 1440 minutes (24 hours)');
-  } else if (date !== '' && isNaN(Date.parse(date)) === true) {
-    res.send('Date is not a valid date');
-  } else {
+  // if (req.params._id === undefined || description === undefined || duration === undefined) {
+  //   res.send('Required Field(s) are missing.');
+  //   console.log(userId);
+  // } else if (req.params._id === '' || description === '' || duration === '') {
+  //   res.send('Required Field(s) are blank.');
+  // } else if (description.length > 1000) {
+  //   res.send('Description cannot be greater than 100 characters');
+  // } else if (isNaN(duration)) {
+  //   res.send('Duration must be a number');
+  // } else if (Number(duration) > 1440) {
+  //   res.send('Duration must be less than 1440 minutes (24 hours)');
+  // } else if (date !== '' && isNaN(Date.parse(date)) === true) {
+  //   res.send('Date is not a valid date');
+  // } else {
 
     //if everything is okey
-
+    console.log("la fecha introducida fue:", date)
     if(!date){
+      date = new Date();
+    } else if( typeof req.body.date === 'undefined'){
       date = new Date();
     }
 
@@ -128,7 +130,7 @@ app.post("/api/users/:_id/exercises", function(req, res){
       }
     });
   
-  }
+  //}
   
 });
 

@@ -47,7 +47,7 @@ const PersonSchema = new mongoose.Schema({
 
 const Person = mongoose.model('Athlete', PersonSchema);
 
-app.post("/api/users/", function(req, res){
+app.post("/api/users", function(req, res){
   
   //we perform certain verifications
 	if (req.body.username === '') {

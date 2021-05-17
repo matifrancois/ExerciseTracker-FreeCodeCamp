@@ -52,8 +52,8 @@ app.post("/api/users", function(req, res){
   //we perform certain verifications
 	if (req.body.username === '') {
     res.send('Username cannot be blank');
-  } else if (req.body.username.length > 10) {
-    res.send('Username cannot be greater than 10 characters');
+  } else if (req.body.username.length > 100) {
+    res.send('Username cannot be greater than 100 characters');
   } else {
     //if everything is okey:
     var newPerson = new Person({name: req.body.username, sesions: []});

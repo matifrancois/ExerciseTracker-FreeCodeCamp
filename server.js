@@ -88,7 +88,7 @@ app.post("/api/users/:_id/exercises", function(req, res){
     console.log(userId);
   } else if (req.params._id === '' || description === '' || duration === '') {
     res.send('Required Field(s) are blank.');
-  } else if (description.length > 100) {
+  } else if (description.length > 1000) {
     res.send('Description cannot be greater than 100 characters');
   } else if (isNaN(duration)) {
     res.send('Duration must be a number');
@@ -116,10 +116,12 @@ app.post("/api/users/:_id/exercises", function(req, res){
       }else if(!data){
         res.send('Username not found');
       } else {
+        console.log("el username fue:", data)
         res.json({
-          "description" : newSesion.description,
-          "date": new Date(newSesion.date).toDateString(),
-          "duration": newSesion.duration,
+          username: data.name,
+          description: newSesion.description,
+          date: new Date(newSesion.date).toDateString(), 
+          duration: newSesion.duration,
           _id: req.params._id
         });
       }
